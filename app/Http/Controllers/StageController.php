@@ -34,8 +34,15 @@ class StageController extends Controller
     public function deleteStage()
     {
         $stage = Stage::first();
-        $stage->destroy();
+        $stage->delete();
         return redirect()->back();
+    }
+
+    public function saveStage(Request $request)
+    {
+        $stage = Stage::get()->first();
+        Question::storeQuestion($stage, $request);
+        return response()->json(['status'=>'success'],200);
     }
 
     public function userAnswers(Request $request)
@@ -76,7 +83,7 @@ class StageController extends Controller
 
     public function stageResults()
     {
-        $questions = Question::get();
+        $questions = Question::with(['answers','userAnswer'])->get();
 
         return view('stage-results', compact('questions'));
     }

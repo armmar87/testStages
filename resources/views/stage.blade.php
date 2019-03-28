@@ -106,7 +106,7 @@
                         <div class="form-group">
                             <div class="col-md-8">
                                 <button type="submit" class="btn btn-primary">Ավելացնել նոր հարց</button>
-                                <a type="button" class="btn" href="{{url('/')}}">Պահպանել</a>
+                                <button type="button" class="btn" id="saveStage" data-url="{{url('/save-stage')}}">Պահպանել</button>
                                 <a type="button" class="btn" href="{{url('/delete-stage')}}">
                                     <i class="fa fa-trash-alt fa-1x"></i>
                                 </a>

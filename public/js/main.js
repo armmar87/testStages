@@ -8,6 +8,7 @@ $(document).ready(function () {
     addAnswer();
     rightAnswer();
     nextQuestion();
+    saveStage();
 
 });
 
@@ -34,7 +35,7 @@ function rightAnswer() {
 }
 
 function nextQuestion() {
-    $('#nextQuestion').on('click', function () {
+    $('.next-question').on('click', function () {
         let form = $(this).closest('form');
         let url = $(form).attr('action');
         let formData = form.serializeArray();
@@ -59,19 +60,32 @@ function nextQuestion() {
     });
 }
 
+function saveStage() {
+    $('#saveStage').on('click', function () {
+        let form = $(this).closest('form');
+        let url = $(this).data('url');
+        let formData = form.serializeArray();
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: formData,
+            success: function (response) {
+                if (response.status == 'success') {
+                    location.href = '/';
+                }
+            }
+        });
+    });
+}
+
 function answerTime(second) {
-    function sec() {
+    setInterval(function () {
         second--;
-        $('#secondBlock').text(second + ' վրկ.');
-        if(second == 0) {
+        if( second > 0 ) {
+            $('#secondBlock').text(second + ' վրկ.');
+        } else if( second == 0 ) {
             $('#nextQuestion').trigger('click');
         }
-
-    }
-    // if(second != 0) {
-        setInterval(sec, 1000)
-    // }
-
-
-
+    }, 1000)
 }
+

@@ -37,7 +37,7 @@
                                             <div class="text-center">
                                                 <h5 style="color: #327ba7" id="secondBlock"></h5>
                                             </div>
-                                            <button type="button" class="btn float-right" id="nextQuestion">Հաջորդը</button>
+                                            <button type="button" class="btn float-right next-question" id="nextQuestion">Հաջորդը</button>
 
                                         </div>
 
@@ -55,9 +55,13 @@
 </div>
 @endsection
 
-@section('js')
-    <script>
-        let second = {!!  $stages->answer_time !!}
-        answerTime(second);
-    </script>
-@endsection
+@if($stages)
+    @section('js')
+        <script>
+            let second = {!!  $stages->answer_time !!}
+            answerTime(second);
+        </script>
+    @endsection
+@endif
+
+

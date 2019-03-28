@@ -10,5 +10,6 @@ Route::post('create-stage', 'StageController@createStage')->name('create.stage')
 Route::post('user-answers', 'StageController@userAnswers');
 
 Route::post('create-next-question', 'QuestionsController@createQuestions')->name('create.next.question');
+Route::post('save-stage', 'StageController@saveStage');
 
 
