@@ -30,10 +30,10 @@
                             @foreach($question->answers as $answer)
                                 <div class="col input-group mb-1">
 
-                                        <input name="answer_id" disabled value="{{ $answer->id }}" type="checkbox"
-                                                @if( ($answer->id == $question->userAnswer->answer_id)) checked @endif
-                                               class="m-1" style="height: 15px;width: 15px">
-                                        <p>{{$answer->answer}}</p>
+                                    <input name="answer_id" disabled value="{{ $answer->id }}" type="checkbox"
+                                            @if( ($answer->id == $question->userAnswer->answer_id)) checked @endif
+                                           class="m-1" style="height: 15px;width: 15px">
+                                    <p>{{$answer->answer}}</p>
 
                                 </div>
                             @endforeach

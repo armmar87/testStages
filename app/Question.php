@@ -8,7 +8,7 @@ use Mockery\Exception;
 
 class Question extends Model
 {
-    public $fillable = ['question', 'right_answer_point'];
+    public $fillable = ['question', 'right_answer_point', 'answer_time'];
 
     public $timestamps = false;
 
@@ -22,20 +22,19 @@ class Question extends Model
         return $this->hasOne(UserAnswer::class);
     }
 
-    public static function storeQuestion($stage, $request) : bool
+    public static function storeQuestion($stage, $request)
     {
-        DB::beginTransaction();
         try {
             $model = new self();
             $model->fill($request->toArray());
             $model->stage_id = $stage->id;
-            $model->save();
-            Answer::storeAnswer($model, $request);
+            if($request->time_type === 'minute')
+                $model->answer_time = $model->answer_time * 60;
 
-            DB::commit();
-            return true;
+            $model->save();
+
+            return $model;
         } catch (Exception $e) {
-            DB::rollback();
             return false;
         }
     }

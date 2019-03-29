@@ -19,6 +19,7 @@
                                 <div>
                                     <form method="POST" action="{{ url('user-answers') }}">
                                         <input type="hidden" name="question_id" value="{{$question->id}}">
+                                        <input type="hidden" name="answer_time" class="answer-time" value="{{$question->answer_time}}">
 
                                         <div class="form-group">
                                             <div id="answerBlock">
@@ -55,13 +56,5 @@
 </div>
 @endsection
 
-@if($stages)
-    @section('js')
-        <script>
-            let second = {!!  $stages->answer_time !!}
-            answerTime(second);
-        </script>
-    @endsection
-@endif
 
 

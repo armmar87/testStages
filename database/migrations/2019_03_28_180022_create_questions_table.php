@@ -18,6 +18,8 @@ class CreateQuestionsTable extends Migration
             $table->unsignedInteger('stage_id');
             $table->string('question',250);
             $table->integer('right_answer_point');
+            $table->integer('answer_time');
+
 
             $table->foreign('stage_id')->references('id')
                 ->on('stages')->onDelete('cascade');

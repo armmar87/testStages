@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
 use App\Http\Requests\StoreStage;
 use App\Question;
 use App\Stage;
 use App\UserAnswer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class StageController extends Controller
@@ -40,9 +42,22 @@ class StageController extends Controller
 
     public function saveStage(Request $request)
     {
-        $stage = Stage::get()->first();
-        Question::storeQuestion($stage, $request);
-        return response()->json(['status'=>'success'],200);
+        DB::beginTransaction();
+        try {
+            $stage = Stage::get()->first();
+            $question = Question::storeQuestion($stage, $request);
+            Answer::storeAnswer($question, $request);
+
+            DB::commit();
+            return response()->json(['status'=>'success'],200);
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['status'=>'error'],200);
+
+        }
+
+
     }
 
     public function userAnswers(Request $request)
@@ -56,7 +71,7 @@ class StageController extends Controller
         if( !($questionCount - $userAnswersCount) )
             $endStage = true;
 
-        return response()->json(['status' => 'success', 'endStage' => $endStage, 'second'=>$stage->answer_time],200);
+        return response()->json(['status' => 'success', 'endStage' => $endStage],200);
     }
 
     public function endStage()

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Stage extends Model
 {
-    public $fillable = ['win_point', 'answer_time'];
+    public $fillable = ['win_point'];
 
     public $timestamps = false;
 
@@ -21,12 +21,10 @@ class Stage extends Model
         DB::beginTransaction();
         try {
             $model = new self();
-            $model->fill($request->toArray());
-            if($request->time_type === 'minute')
-                $model->answer_time = $model->answer_time * 60;
-
+            $model->win_point = $request->win_point;
             $model->save();
-            Question::storeQuestion($model, $request);
+            $question = Question::storeQuestion($model, $request);
+            Answer::storeAnswer($question, $request);
 
             DB::commit();
             return true;

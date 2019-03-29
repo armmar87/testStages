@@ -9,6 +9,7 @@ $(document).ready(function () {
     rightAnswer();
     nextQuestion();
     saveStage();
+    answerTime();
 
 });
 
@@ -41,6 +42,8 @@ function nextQuestion() {
         let formData = form.serializeArray();
         let questionBlock = $(this).closest('div.stage-block');
         let secondBlock = questionBlock.find('#secondBlock');
+        let second = questionBlock.next().find('.answer-time').val();
+
         $.ajax({
             url: url,
             method: 'POST',
@@ -53,7 +56,7 @@ function nextQuestion() {
                     questionBlock.hide();
                     questionBlock.next().show();
                     secondBlock.remove();
-                    answerTime(response.second)
+                    answerTime(second)
                 }
             }
         });
@@ -78,14 +81,15 @@ function saveStage() {
     });
 }
 
-function answerTime(second) {
-    setInterval(function () {
-        second--;
-        if( second > 0 ) {
-            $('#secondBlock').text(second + ' վրկ.');
-        } else if( second == 0 ) {
-            $('#nextQuestion').trigger('click');
-        }
-    }, 1000)
+function answerTime( second ) {
+    // second = second ? second : $('.answer-time').val();
+    // setInterval(function () {
+    //     second--;
+    //     if( second > 0 ) {
+    //         $('#secondBlock').text(second + ' վրկ.');
+    //     } else if( second == 0 ) {
+    //         $('#nextQuestion').trigger('click');
+    //     }
+    // }, 1000)
 }
 

@@ -46,6 +46,26 @@
                             </div>
 
                             <div class="input-group">
+                                <div class="col-md-4">
+                                    <label for="question">Պատասխանելու ժամանակ</label>
+
+                                    <input id="answer_time" type="number" class="form-control{{ $errors->has('answer_time') ? ' is-invalid' : '' }}"
+                                           name="answer_time" autofocus>
+
+                                    @if ($errors->has('answer_time'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('answer_time') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="question"> </label>
+                                    <select name="time_type" class="form-control">
+                                        <option value="second">Վարկյան</option>
+                                        <option value="minute">Րոպե</option>
+                                    </select>
+                                </div>
                                 <div class="col-md-3">
                                     <label for="win_point">Հաղթական բալ</label>
                                     <input id="win_point" type="number" class="form-control{{ $errors->has('win_point') ? ' is-invalid' : '' }}"
@@ -57,27 +77,6 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="question">Պատասխանելու ժամանակ</label>
-
-                                    <input id="answer_time" type="number" class="form-control{{ $errors->has('answer_time') ? ' is-invalid' : '' }}"
-                                           name="answer_time" @if($stage) value="{{ $stage->answer_time }}" @endif @if($stage) disabled @endif autofocus>
-
-                                    @if ($errors->has('answer_time'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('answer_time') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label for="question"> </label>
-                                    <select name="time_type" class="form-control" @if($stage) disabled @endif>
-                                        <option value="second">Վարկյան</option>
-                                        <option value="minute">Րոպե</option>
-                                    </select>
-                                </div>
-
                             </div>
                         </div>
 

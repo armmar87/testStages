@@ -16,7 +16,6 @@ class CreateStagesTable extends Migration
         Schema::create('stages', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('win_point');
-            $table->integer('answer_time');
         });
     }
 
