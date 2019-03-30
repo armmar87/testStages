@@ -13,6 +13,8 @@ $(document).ready(function () {
 
 });
 
+let interval;
+
 function addAnswer() {
     $('#addAnswer').on('click', function () {
         let answerBlock = $('#answerBlock');
@@ -36,12 +38,14 @@ function rightAnswer() {
 }
 
 function nextQuestion() {
-    $('.next-question').on('click', function () {
+    $(document).on('click','.next-question', function () {
         let form = $(this).closest('form');
         let url = $(form).attr('action');
         let formData = form.serializeArray();
-        let questionBlock = $(this).closest('div.stage-block');
-        let secondBlock = questionBlock.find('#secondBlock');
+        let questionBlock = $('#questionBlock');
+
+        // let questionBlock = $(this).closest('div.stage-block');
+        // let secondBlock = questionBlock.find('#secondBlock');
         let second = questionBlock.next().find('.answer-time').val();
 
         $.ajax({
@@ -53,9 +57,8 @@ function nextQuestion() {
                     if(response.endStage)
                         location.href = '/end-stage';
 
-                    questionBlock.hide();
-                    questionBlock.next().show();
-                    secondBlock.remove();
+                    questionBlock.html(response.content);
+                    window.clearInterval(interval);
                     answerTime(second)
                 }
             }
@@ -82,14 +85,15 @@ function saveStage() {
 }
 
 function answerTime( second ) {
-    // second = second ? second : $('.answer-time').val();
-    // setInterval(function () {
-    //     second--;
-    //     if( second > 0 ) {
-    //         $('#secondBlock').text(second + ' վրկ.');
-    //     } else if( second == 0 ) {
-    //         $('#nextQuestion').trigger('click');
-    //     }
-    // }, 1000)
+    second = second ? second : $('#secondBlock').text();
+    interval = window.setInterval( function() {
+            second--;
+            if( second > 0 ) {
+                $('#secondBlock').text(second + ' վրկ.');
+            } else {
+                $('#nextQuestion').trigger('click');
+            }
+            return false;
+        }, 1000 );
 }
 

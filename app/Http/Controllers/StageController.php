@@ -15,10 +15,10 @@ class StageController extends Controller
 {
     public function index()
     {
-        $stages = Stage::with('questions')->first();
+        $stage = Stage::with('questions')->first();
         $userAnswersCount = UserAnswer::count();
 
-        return view('home', compact('stages', 'userAnswersCount'));
+        return view('home', compact('stage', 'userAnswersCount'));
     }
 
     public function adminIndex()
@@ -67,11 +67,14 @@ class StageController extends Controller
         $questionCount = $stage->questions()->count();
         $userAnswersCount = UserAnswer::count();
 
-        $endStage = false;
-        if( !($questionCount - $userAnswersCount) )
-            $endStage = true;
+        $endStage = true;
+        $content = '';
+        if( $questionCount - $userAnswersCount ){
+            $endStage = false;
+            $content = view('question-block', compact('stage','userAnswersCount'))->render();
+        }
 
-        return response()->json(['status' => 'success', 'endStage' => $endStage],200);
+        return response()->json(['status' => 'success', 'endStage' => $endStage,'content'=>$content],200);
     }
 
     public function endStage()
